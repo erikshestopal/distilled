@@ -3,6 +3,7 @@
 Effect-native ClickHouse Cloud management SDK, generated from the
 [official OpenAPI document](https://api.clickhouse.cloud/v1).
 Includes all 190 management operations across 16 primary tags, including deprecated endpoints.
+The separate `SQL` subpath provides a buffered HTTPS SQL client.
 
 ## Installation
 
@@ -76,12 +77,53 @@ streams. They pass `nextCursor` back as `cursor` until it is null or absent.
 Offset-based endpoints retain their `offset` and `limit` inputs for manual paging.
 Retry policy layers use the shared core retry implementation through `ClickHouse.Retry`.
 Management operations default to at most eight transient retries. Use `Retry.none`
-for writes whose outcome would be ambiguous after a lost reply.
+for writes whose outcome would be ambiguous after a lost reply. The separate SQL
+runtime deliberately does not retry.
 
 The shared REST protocol maps documented HTTP failures to tagged errors, preserves
 ClickHouse's `error` message, and exposes `ClickHouseParseError` for opt-in response
 validation. A role-specific 404 message produces `roleManagement.RoleNotFound` on
 role GET, PATCH, and DELETE; unrelated 404s remain `NotFound`.
+
+## SQL over HTTPS
+
+`@distilled.cloud/clickhouse/SQL` is hand-written runtime code, independent of
+the Cloud management OpenAPI generator. It implements ClickHouse's documented
+HTTP interface, not a generated management operation or the native TCP protocol.
+Its transport tests live in `packages/clickhouse/test/sql.test.ts`; successful
+management regeneration does not verify SQL behavior.
+
+```ts
+import { Config, Effect } from "effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import { makeSqlClient } from "@distilled.cloud/clickhouse/SQL";
+
+const program = Effect.gen(function* () {
+  const sql = makeSqlClient({
+    url: yield* Config.String("CLICKHOUSE_SQL_URL"),
+    username: yield* Config.String("CLICKHOUSE_SQL_USERNAME"),
+    password: yield* Config.Redacted("CLICKHOUSE_SQL_PASSWORD"),
+    database: "analytics",
+  });
+  return yield* sql.query({ sql: "SELECT {value:String} AS value", parameters: { value: "hello" } });
+});
+
+program.pipe(Effect.provide(FetchHttpClient.layer), Effect.runPromise);
+```
+
+Calls require `HttpClient.HttpClient` from the calling fiber, so callers can
+substitute a transport. A custom transport must not retry writes or follow
+redirects with credentials. The Fetch transport uses manual redirects. Responses
+are buffered inside a fresh scope, including cancellation and response cleanup.
+Commands and inserts are never automatically retried; a lost response has an
+unknown outcome. `insert` explicitly disables asynchronous inserts.
+
+SQL passwords stay redacted and are not Cloud API secrets. The SQL endpoint
+authenticates a SQL identity, not the caller host's workload identity. Supply a
+least-privilege user provisioned by an authorized administrator. The default
+database selects a namespace, not an authorization boundary. Server errors
+surface as `SqlError`, with sensitive server detail redacted; lost responses
+surface as `SqlTransportError`.
 
 ## Regeneration
 
