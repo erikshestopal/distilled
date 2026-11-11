@@ -1,0 +1,33 @@
+{
+  "description": "The Alchemy live role suite on 2026-11-09 observed PATCH of a disposable role with a DENY policy returning HTTP 400 and error 'BAD_REQUEST: Deny policies are not enabled for this organization'. Match only that exact organization entitlement failure on role PATCH and POST; POST shares policy creation validation but has not been live-probed. Do not match other BadRequest responses or modify organization settings.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#DenyPoliciesNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": "BAD_REQUEST: Deny policies are not enabled for this organization"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolePatch/errors/-",
+      "value": { "target": "com.clickhouse.role_management#DenyPoliciesNotEnabled" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolePost/errors/-",
+      "value": { "target": "com.clickhouse.role_management#DenyPoliciesNotEnabled" }
+    }
+  ]
+}

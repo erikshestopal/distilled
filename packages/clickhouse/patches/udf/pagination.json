@@ -1,0 +1,38 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 UDF, version and attachment lists accept cursor/limit and return result[] plus nextCursor (null on the last page).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfAttachmentList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfVersionList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

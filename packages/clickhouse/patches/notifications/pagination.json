@@ -1,0 +1,27 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 notification and member-settings lists accept cursor/limit and return result[] plus nextCursor (null on the last page).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.notifications#NotificationGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.notifications#MemberNotificationSettingsGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

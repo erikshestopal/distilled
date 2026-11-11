@@ -1,0 +1,18 @@
+{
+  "description": "The Terraform-documented SSH key validation request posts an empty JSON object, not an empty HTTP body: https://github.com/ClickHouse/terraform-provider-clickhouse/blob/dc26b13d87ba0ef0b75205ddf9decc0a0e1e64e2/internal/api/clickpipe_ssh_key.go#L99-L100. Preserve the empty request body through OpenAPI conversion.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyValidationBody",
+      "value": { "type": "structure", "members": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyValidateRequest/members/body",
+      "value": {
+        "target": "com.clickhouse.click_pipes#ClickPipeSshKeyValidationBody",
+        "traits": { "smithy.api#httpPayload": {}, "smithy.api#required": {} }
+      }
+    }
+  ]
+}

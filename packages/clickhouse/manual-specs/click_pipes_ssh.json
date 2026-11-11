@@ -1,0 +1,168 @@
+{
+  "description": "Terraform-documented ClickPipes SSH key operations. Source: https://github.com/ClickHouse/terraform-provider-clickhouse/tree/dc26b13d87ba0ef0b75205ddf9decc0a0e1e64e2/internal/api/clickpipe_ssh_key.go and clickpipe_ssh_key_models.go. Not part of the published ClickHouse OpenAPI specification.",
+  "paths": {
+    "/v1/organizations/{organizationId}/services/{serviceId}/clickpipesSshKeyResources": {
+      "parameters": [
+        {
+          "name": "organizationId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        },
+        { "name": "serviceId", "in": "path", "required": true, "schema": { "type": "string" } }
+      ],
+      "get": {
+        "tags": ["ClickPipes"],
+        "summary": "List SSH keys (Terraform-documented)",
+        "operationId": "clickPipeSshKeyGetList",
+        "responses": {
+          "200": {
+            "description": "SSH keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/ClickPipeSshKey" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["ClickPipes"],
+        "summary": "Create an SSH key (Terraform-documented)",
+        "operationId": "clickPipeSshKeyCreate",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateClickPipeSshKey" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created SSH key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "result": { "$ref": "#/components/schemas/ClickPipeSshKey" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/organizations/{organizationId}/services/{serviceId}/clickpipesSshKeyResources/{sshKeyId}": {
+      "parameters": [
+        {
+          "name": "organizationId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        },
+        { "name": "serviceId", "in": "path", "required": true, "schema": { "type": "string" } },
+        { "name": "sshKeyId", "in": "path", "required": true, "schema": { "type": "string" } }
+      ],
+      "get": {
+        "tags": ["ClickPipes"],
+        "summary": "Get an SSH key (Terraform-documented)",
+        "operationId": "clickPipeSshKeyGet",
+        "responses": {
+          "200": {
+            "description": "SSH key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "result": { "$ref": "#/components/schemas/ClickPipeSshKey" } }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["ClickPipes"],
+        "summary": "Delete an SSH key (Terraform-documented)",
+        "operationId": "clickPipeSshKeyDelete",
+        "responses": { "200": { "description": "SSH key deleted" } }
+      }
+    },
+    "/v1/organizations/{organizationId}/services/{serviceId}/clickpipesSshKeyResources/{sshKeyId}/validate": {
+      "parameters": [
+        {
+          "name": "organizationId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" }
+        },
+        { "name": "serviceId", "in": "path", "required": true, "schema": { "type": "string" } },
+        { "name": "sshKeyId", "in": "path", "required": true, "schema": { "type": "string" } }
+      ],
+      "post": {
+        "tags": ["ClickPipes"],
+        "summary": "Validate an SSH key after installing its public key (Terraform-documented)",
+        "operationId": "clickPipeSshKeyValidate",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "properties": {} } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Validated SSH key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "result": { "$ref": "#/components/schemas/ClickPipeSshKey" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateClickPipeSshKey": {
+        "type": "object",
+        "required": ["name", "host", "port", "username"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "host": { "type": "string" },
+          "port": { "type": "integer" },
+          "username": { "type": "string" }
+        }
+      },
+      "ClickPipeSshKey": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "serviceId": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "host": { "type": "string" },
+          "port": { "type": "integer" },
+          "username": { "type": "string" },
+          "publicKey": { "type": "string" },
+          "status": { "type": "string" },
+          "statusMessage": { "type": "string" },
+          "lastValidatedAt": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string" },
+          "updatedAt": { "type": "string" }
+        }
+      }
+    }
+  }
+}

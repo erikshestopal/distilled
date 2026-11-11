@@ -1,0 +1,30 @@
+{
+  "description": "The pinned ClickHouse OpenAPI schema documents attachment PUT HTTP 424 with code SERVICE_IDLE, SERVICE_NOT_RUNNING, or SERVICE_STOPPED and structured serviceState and canWake fields. This is schema evidence, not a live-probed response.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfServiceDependency",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" },
+          "body": { "target": "smithy.api#Document" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 424,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 424, "body": { "/code": "SERVICE_IDLE" } },
+            { "status": 424, "body": { "/code": "SERVICE_NOT_RUNNING" } },
+            { "status": 424, "body": { "/code": "SERVICE_STOPPED" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfAttach/errors/-",
+      "value": { "target": "com.clickhouse.udf#UdfServiceDependency" }
+    }
+  ]
+}

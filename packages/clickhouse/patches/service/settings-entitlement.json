@@ -1,0 +1,28 @@
+{
+  "description": "A live GET on a verified disposable service on 2026-11-10 returned HTTP 403 because the ClickHouse settings API is not enabled for the organization. Type this exact entitlement rejection rather than treating a generic Forbidden response as absence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ServiceSettingsNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": "FORBIDDEN: ClickHouse settings API is not enabled for this organization. Please contact support to enable this feature"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ServiceClickhouseSettingsListGet/errors/-",
+      "value": { "target": "com.clickhouse.service#ServiceSettingsNotEnabled" }
+    }
+  ]
+}

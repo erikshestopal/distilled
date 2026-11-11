@@ -1,0 +1,37 @@
+{
+  "description": "Live probes on 2026-11-09 observed distinct missing-role HTTP 404 messages: GET returned 'NOT_FOUND: Role <uuid> not found'; PATCH with a name on a confirmed absent UUID returned 'NOT_FOUND: Roles not found: <uuid>'; the Alchemy lifecycle suite's duplicate DELETE returned 'NOT_FOUND: Some of the roles not found'. Match only these role-specific messages through one shared RoleNotFound class on GET, PATCH, and DELETE.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RoleNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 404, "message": { "matches": "^NOT_FOUND: Role " } },
+            { "status": 404, "message": { "matches": "^NOT_FOUND: Roles not found: " } },
+            { "status": 404, "message": "NOT_FOUND: Some of the roles not found" }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRoleGet/errors/-",
+      "value": { "target": "com.clickhouse.role_management#RoleNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolePatch/errors/-",
+      "value": { "target": "com.clickhouse.role_management#RoleNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRoleDelete/errors/-",
+      "value": { "target": "com.clickhouse.role_management#RoleNotFound" }
+    }
+  ]
+}

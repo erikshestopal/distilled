@@ -1,0 +1,35 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 schema describes serviceAccountFile and object-storage serviceAccountKey as base64-encoded Google Cloud JSON keys and MongoDB uri as allowing embedded credentials. Mark those fields sensitive; source passwords, IAM secrets, private keys and connection strings already receive sensitive traits from conversion.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ServiceAccount/members/serviceAccountFile/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipePostObjectStorageSource/members/serviceAccountKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipePatchObjectStorageSource/members/serviceAccountKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeMongoDBSource/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeMutateMongoDBSource/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipePatchMongoDBSource/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

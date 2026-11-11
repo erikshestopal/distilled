@@ -1,0 +1,28 @@
+{
+  "description": "A live CDC scaling GET on a verified disposable service on 2026-11-10 returned HTTP 404 because CDC infrastructure has not been provisioned. This is a missing prerequisite, not an absent service or a successful scaler deletion.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#CdcInfrastructureNotProvisioned",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": "NOT_FOUND: CDC infrastructure is not yet provisioned. Create a CDC ClickPipe before calling this API"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeCdcScalingGet/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#CdcInfrastructureNotProvisioned" }
+    }
+  ]
+}

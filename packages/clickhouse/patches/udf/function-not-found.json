@@ -1,0 +1,25 @@
+{
+  "description": "A read-only probe on 2026-11-09 observed GET for a missing UDF in a valid organization return HTTP 404 with error 'UDF alchemy_probe_absent_00000001 not found'. An absent organization returned HTTP 403 instead. Match the missing-function response only on UdfGet; other UDF operations have not been probed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfFunctionNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 404, "message": { "matches": "^UDF [A-Za-z][A-Za-z0-9_]* not found$" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.udf#UdfGet/errors/-",
+      "value": { "target": "com.clickhouse.udf#UdfFunctionNotFound" }
+    }
+  ]
+}

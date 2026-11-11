@@ -58,6 +58,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "celld" },
   { package: "chronosphere" },
   { package: "clerk" },
+  { package: "clickhouse" },
   { package: "cloudflare" },
   { package: "coinbase" },
   { package: "coolify" },

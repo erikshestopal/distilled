@@ -1,0 +1,15 @@
+{
+  "description": "The official OpenAPI component ClickStackValidateDashboardError describes a successful validation response's field-level detail. Its name collides with the generated error union of clickStackValidateDashboard. Rename only the response-detail shape to ClickStackDashboardValidationDetail; retain the official operation and wire member names.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.clickhouse.click_stack#ClickStackValidateDashboardError",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackDashboardValidationDetail"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackValidateDashboardResponseErrorsList/member/target",
+      "value": "com.clickhouse.click_stack#ClickStackDashboardValidationDetail"
+    }
+  ]
+}

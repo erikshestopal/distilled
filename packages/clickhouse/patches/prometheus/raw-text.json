@@ -1,0 +1,39 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 OpenAPI document declares four Prometheus endpoints as text/plain (including charset variants), not empty responses. Preserve their complete text using the shared raw response trait.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.prometheus#PrometheusTextResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#required": {}, "com.distilled.openapi#rawResponse": {} }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.prometheus#OrganizationPrometheusGet/output/target",
+      "value": "com.clickhouse.prometheus#PrometheusTextResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.prometheus#InstancePrometheusGet/output/target",
+      "value": "com.clickhouse.prometheus#PrometheusTextResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.prometheus#PostgresOrgPrometheusGet/output/target",
+      "value": "com.clickhouse.prometheus#PrometheusTextResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.prometheus#PostgresInstancePrometheusGet/output/target",
+      "value": "com.clickhouse.prometheus#PrometheusTextResponse"
+    }
+  ]
+}

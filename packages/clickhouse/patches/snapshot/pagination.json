@@ -1,0 +1,16 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 snapshot list accepts cursor/limit and returns result[] plus nextCursor (null on the last page).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.snapshot#SnapshotGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

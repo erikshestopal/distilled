@@ -1,0 +1,30 @@
+{
+  "description": "A read-only probe on 2026-11-09 found that GET of a missing service in a valid organization returns HTTP 404 with 'NOT_FOUND: <service UUID>', while a missing organization returns 'NOT_FOUND'. Match only the service-specific GET response; delete and inaccessible-organization behavior were not probed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ServiceNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#InstanceGet/errors/-",
+      "value": { "target": "com.clickhouse.service#ServiceNotFound" }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 OpenAPI document declares postgresServiceCertsGet as application/x-pem-file with a string body. Preserve the complete PEM text instead of converting its response to Unit.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.postgres#PostgresCertificateResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": { "smithy.api#required": {}, "com.distilled.openapi#rawResponse": {} }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clickhouse.postgres#PostgresServiceCertsGet/output/target",
+      "value": "com.clickhouse.postgres#PostgresCertificateResponse"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "description": "On 2026-11-09 a read-only GET for a confirmed absent key UUID returned HTTP 404 with 'NOT_FOUND: <uuid>'; an absent organization returned only 'NOT_FOUND'. Match the child form on GET only; DELETE and PATCH were not probed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.api_keys#ApiKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.api_keys#OpenapiKeyGet/errors/-",
+      "value": { "target": "com.clickhouse.api_keys#ApiKeyNotFound" }
+    }
+  ]
+}

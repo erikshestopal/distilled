@@ -1,0 +1,20 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 ApiKeyPostResponse returns keySecret, and ApiKeyHashData holds authentication hashes. Mark all three sensitive; keyId is a public identifier, not the secret.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.api_keys#ApiKeyPostResponse/members/keySecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.api_keys#ApiKeyHashData/members/keyIdHash/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.api_keys#ApiKeyHashData/members/keySecretHash/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

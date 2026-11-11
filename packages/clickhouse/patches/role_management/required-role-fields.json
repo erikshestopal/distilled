@@ -1,0 +1,106 @@
+{
+  "description": "The official role success responses return a result envelope and complete RBAC role records. Live list/read evidence on 2026-11-09 contains id, tenantId, ownerId, name, actors, policies, createdAt, updatedAt and type; policies contain id, tenantId, roleId, allowDeny, permissions and resources. Mark these required while leaving policy tags optional.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/tenantId/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/ownerId/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/actors/traits",
+      "value": {
+        "smithy.api#required": {},
+        "smithy.api#documentation": "List of actor resource IDs assigned to this role (e.g., user/uuid, apiKey/uuid)"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/policies/traits",
+      "value": {
+        "smithy.api#required": {},
+        "smithy.api#documentation": "List of policies associated with this role"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/createdAt/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACRole/members/updatedAt/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/tenantId/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/roleId/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/allowDeny/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/permissions/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#RBACPolicy/members/resources/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolesGetListResponse/members/result/traits",
+      "value": { "smithy.api#required": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRoleGetResponse/members/result/traits",
+      "value": { "smithy.api#required": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolePostResponse/members/result/traits",
+      "value": { "smithy.api#required": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.role_management#OrganizationRolePatchResponse/members/result/traits",
+      "value": { "smithy.api#required": {} }
+    }
+  ]
+}

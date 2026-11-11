@@ -1,0 +1,25 @@
+{
+  "description": "On 2026-11-09 GET of the documented Postgres example ID in an organization with no Postgres services returned HTTP 404 and 'NOT_FOUND: Not Found'. The same ID under an absent organization returned the distinct bare 'NOT_FOUND'. Match only the child response on GET; no write operation was probed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.postgres#PostgresServiceNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 404, "message": "NOT_FOUND: Not Found" }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.postgres#PostgresServiceGet/errors/-",
+      "value": { "target": "com.clickhouse.postgres#PostgresServiceNotFound" }
+    }
+  ]
+}

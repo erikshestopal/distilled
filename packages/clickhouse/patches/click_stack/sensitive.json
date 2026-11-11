@@ -1,0 +1,80 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 webhook schemas include Slack/incident.io capability URLs plus configurable destinations, bodies, headers and query parameters that can hold authentication material. Redact the URL/body members and each custom header/query value, including every flattened input copy and the validator's opaque normalized configuration response.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackSlackWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackIncidentIOWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackGenericWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackGenericWebhook/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackSlackAPIWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackPagerDutyAPIWebhook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackCreateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackCreateWebhookRequest/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackUpdateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackUpdateWebhookRequest/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackValidateWebhookRequest/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackValidateWebhookRequest/members/body/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackWebhookInputHeaders/value/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackWebhookInputQueryParams/value/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_stack#ClickStackValidateWebhookResponse/members/normalized/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

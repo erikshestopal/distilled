@@ -1,0 +1,20 @@
+{
+  "description": "The official https://api.clickhouse.cloud/v1 schema describes encryptionKey as a customer disk-encryption key and newDoubleSha1Hash as a database password hash. They are credentials even though their names evade the default sensitive-name patterns. Ordinary passwords are already marked by conversion.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#Service/members/encryptionKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ServiceScalingPatchResponse/members/encryptionKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#InstancePasswordUpdateRequest/members/newDoubleSha1Hash/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

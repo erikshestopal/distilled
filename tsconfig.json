@@ -19,6 +19,8 @@
     {
       "path": "./packages/celld/tsconfig.scripts.json"
     },
+    { "path": "./packages/clickhouse/tsconfig.json" },
+    { "path": "./packages/clickhouse/tsconfig.scripts.json" },
     {
       "path": "./packages/cloudflare/tsconfig.json"
     },

@@ -1,0 +1,130 @@
+{
+  "description": "Live probes on 2026-11-10: GET and DELETE of absent pipe/key/reverse-endpoint UUIDs under a verified disposable service return HTTP 404 with 'NOT_FOUND: <UUID>'. Lists under a deleted service return the same service-UUID message; an inaccessible organization returns bare 'NOT_FOUND'. Type only the UUID-bearing absence responses, leaving inaccessible organizations fatal. A child GET/DELETE may also report its missing parent.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipesServiceNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^NOT_FOUND: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeGet/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipeNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeDelete/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipeNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyGet/errors",
+      "value": [{ "target": "com.clickhouse.click_pipes#ClickPipeSshKeyNotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyDelete/errors",
+      "value": [{ "target": "com.clickhouse.click_pipes#ClickPipeSshKeyNotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointGet/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointDelete/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeGetList/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipesServiceNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeSshKeyGetList/errors",
+      "value": [{ "target": "com.clickhouse.click_pipes#ClickPipesServiceNotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.click_pipes#ClickPipeReversePrivateEndpointGetList/errors/-",
+      "value": { "target": "com.clickhouse.click_pipes#ClickPipesServiceNotFound" }
+    }
+  ]
+}

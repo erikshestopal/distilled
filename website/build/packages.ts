@@ -87,6 +87,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   [
     "Data",
     [
+      "clickhouse",
       "neon",
       "supabase",
       "planetscale",
@@ -163,6 +164,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
 
 /** Extra words the catalogue filter matches on, keyed by `packages/<dir>`. */
 export const SEARCH_HINTS: Record<string, string> = {
+  clickhouse: "cloud analytics olap clickpipes clickstack postgres",
   neon: "postgres serverless",
   supabase: "postgres auth storage",
   planetscale: "mysql postgres",

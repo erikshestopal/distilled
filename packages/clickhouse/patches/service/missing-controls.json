@@ -1,0 +1,51 @@
+{
+  "description": "On 2026-11-09 GET on a disposable existing service with no schedule or window returned 404 with respectively 'NOT_FOUND: no autoscaling schedule found for service <id>' and 'NOT_FOUND: no upgrade window configured for service <id>'. GET on a nonexistent service instead returned 'NOT_FOUND: <id>'. Match only the observed child-specific GET responses; do not classify parent or DELETE errors.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ScalingScheduleNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": { "matches": "^NOT_FOUND: no autoscaling schedule found for service " }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#ScalingScheduleGet/errors/-",
+      "value": { "target": "com.clickhouse.service#ScalingScheduleNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#UpgradeWindowNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": { "matches": "^NOT_FOUND: no upgrade window configured for service " }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.service#UpgradeWindowGet/errors/-",
+      "value": { "target": "com.clickhouse.service#UpgradeWindowNotFound" }
+    }
+  ]
+}
